@@ -16,8 +16,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'verified',
+        'verification_token',
+        'admin'
     ];
+    const VERIFIED_USER='1';
+    const UNVERIFIED_USER='0';
+
+    const ADMIN_USER='true';
+    const REGULAR_USER='false';
+
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -25,7 +37,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
+        'verification_token'
     ];
 
     /**
@@ -36,4 +50,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin()
+    {
+        return $this->admin == User::ADMIN_USER;
+    }
+    public function isVerified()
+    {
+        return $this->verfied == User::VERIFIED_USER;
+    }
+
+    public function generateVerificationCode()
+    {
+        return str_random(40);
+    }
+
+
 }
