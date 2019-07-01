@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
+    protected $dates =['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +30,7 @@ class User extends Authenticatable
 
     const ADMIN_USER='true';
     const REGULAR_USER='false';
+    protected $table='users';
 
 
 
@@ -60,10 +63,24 @@ class User extends Authenticatable
         return $this->verfied == User::VERIFIED_USER;
     }
 
-    public function generateVerificationCode()
+    public static function generateVerificationCode()
     {
         return str_random(40);
     }
 
+// helpers
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name']=strtolower($name);
+    }
 
+    public function setEmailAttribute($email)
+    {
+        $this->attributes['email']=strtolower($email);
+    }
+
+    protected function getNameAttributes($name)
+    {
+        return ucwords($name);
+    }
 }

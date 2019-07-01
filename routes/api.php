@@ -17,9 +17,9 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/', function () {
+    return view('welcome');
+});
 
 //Route::resource('buyer','Buyer\BuyerController',['only'=>['index','show']]); // just index and show
 //Route::resource('buyer','Buyer\BuyerController',['except'=>['index','show']]); // all without  index and show
@@ -28,35 +28,35 @@ use Illuminate\Http\Request;
 /**
  * User
  */
-Route::resource('user','User\UserController',['except'=>['create','edit']]);
+Route::resource('users','User\UserController',['except'=>['create','edit']]);
 
 
 /**
  * Buyer
  */
-Route::resource('buyer','Buyer\BuyerController',['only'=>['index','show']]);
+Route::resource('buyers','Buyer\BuyerController',['only'=>['index','show']]);
 
 
 /**
  * Seller
  */
-Route::resource('seller','Seller\SellerController',['only'=>['index','show']]);
+Route::resource('sellers','Seller\SellerController',['only'=>['index','show']]);
 
 
 /**
  * Product
  */
-Route::resource('product','Product\ProductController',['only'=>['index','show']]);
+//Route::resource('product','Product\ProductController',['only'=>['index','show']]);
 
 
 /**
  * Transaction
  */
-Route::resource('transaction','Transaction\TransactionController',['only'=>['index','show']]);
+//Route::resource('transaction','Transaction\TransactionController',['only'=>['index','show']]);
 
 
 /**
  * Category
  */
-Route::resource('category','Category\CategoryController',['only'=>['index','show']]);
+Route::resource('categories','Category\CategoryController');
 

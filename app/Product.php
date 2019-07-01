@@ -3,20 +3,25 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
     //
+    use SoftDeletes;
+    protected $dates =['deleted_at'];
+
     const AVAILABLE_PRODUCT='available';
     const UNAVAILABLE_PRODUCT='unavailable';
 
     protected $fillable=[
-      'seller_id'
-      ,'name'
+      'name'
       ,'description'
       ,'quantity'
       ,'status'
       ,'photo'
+      ,'seller_id'
+
     ];
 
     public function isAvailable()
@@ -32,7 +37,7 @@ class Product extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    public function category(){
+    public function categories(){
         return $this->belongsToMany(Category::class);
     }
 }

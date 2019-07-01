@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Category;
 
+use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'data'=>Category::all(),
+        ]);
     }
 
     /**
@@ -35,27 +38,43 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $roles=[
+            'name'=>'required',
+            'description'=>'required'
+        ];
+
+        $this->validate($request,$roles);
+
+        $newCategory =Category::create($request->all());
+
+
+        return response()->json(
+            [
+                'data'=>$newCategory,
+            ],201
+        );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return response()->json([
+            'data'=>$category,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
         //
     }
@@ -64,10 +83,10 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -75,11 +94,17 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $deleted=$category->id;
+        $category->delete();
+
+
+        return response()->json([
+            'data'=>$deleted
+        ],200);
     }
 }
