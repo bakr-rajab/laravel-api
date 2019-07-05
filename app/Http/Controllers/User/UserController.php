@@ -94,7 +94,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $user = User::findOrFail($id);
+            $user = User::findOrFail($id);
 
         $roles=[
             'email'=>'email|unique:users,email,'.$user->id,

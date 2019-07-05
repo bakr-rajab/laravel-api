@@ -15,13 +15,15 @@ class Product extends Model
     const UNAVAILABLE_PRODUCT='unavailable';
 
     protected $fillable=[
-      'name'
-      ,'description'
+      'name',
+      'description'
       ,'quantity'
       ,'status'
-      ,'photo'
+      ,'image'
       ,'seller_id'
-
+    ];
+    protected $hidden=[
+        'pivot'
     ];
 
     public function isAvailable()

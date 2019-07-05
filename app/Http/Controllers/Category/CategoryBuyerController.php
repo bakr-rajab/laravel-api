@@ -6,18 +6,23 @@ use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class CategoryBuyerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Category $category)
     {
-        return response()->json([
-            'data'=>Category::all(),
-        ]);
+        return $buyer=$category->products()->whereHas('transactions')
+            ->with('transactions.buyer')
+            ->get()
+            ->pluck('transactions')
+            ->collapse()
+            ->pluck('buyer')
+            ->unique('id')
+            ->values();
     }
 
     /**
@@ -38,21 +43,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $roles=[
-            'name'=>'required',
-            'description'=>'required'
-        ];
-
-        $this->validate($request,$roles);
-
-        $newCategory =Category::create($request->all());
-
-
-        return response()->json(
-            [
-                'data'=>$newCategory,
-            ],201
-        );
+        //
     }
 
     /**
@@ -63,9 +54,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return response()->json([
-            'data'=>$category,
-        ]);
+        //
     }
 
     /**
@@ -88,30 +77,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $roles=[
-            'name'=>'required',
-            'description'=>'required'
-        ];
-
-        $this->validate($request,$roles);
-
-        $category->name=$request->name;
-        $category->description=$request->description;
-
-        if(!$category->isDirty()){
-            return response()->json(
-                [
-                    'data'=>'no change',
-                ],201
-            );
-        }
-        $category->save();
-
-        return response()->json(
-            [
-                'data'=>$category,
-            ],201
-        );
+        //
     }
 
     /**
@@ -122,12 +88,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $deleted=$category->id;
-        $category->delete();
-
-
-        return response()->json([
-            'data'=>$deleted
-        ],200);
+        //
     }
 }
